@@ -1,0 +1,47 @@
+{
+  "branches": ["feature/add-semantic-releases"],
+  "plugins": [
+    [
+      "@semantic-release/commit-analyzer",
+      {
+        "preset": "conventionalcommits",
+        "releaseRules": [
+          { "breaking": true, "release": "minor" },
+          { "type": "feat", "release": "minor" },
+          { "type": "perf", "release": "minor" },
+          { "type": "refactor", "release": "minor" },
+          { "type": "fix", "release": "patch" },
+          { "type": "docs", "release": "patch" },
+          { "type": "chore", "release": false },
+          { "type": "ci", "release": false },
+          { "type": "style", "release": false },
+          { "type": "test", "release": false }
+        ],
+        "parserOpts": {
+          "noteKeywords": ["BREAKING CHANGE", "BREAKING CHANGES", "BREAKING"]
+        }
+      }
+    ],
+    [
+      "@semantic-release/release-notes-generator",
+      {
+        "preset": "conventionalcommits"
+      }
+    ],
+    [
+      "@semantic-release/github",
+      {
+        "assets": [
+          ".pio/build/gh_release/bootloader.bin",
+          ".pio/build/gh_release/firmware.bin",
+          ".pio/build/gh_release/firmware.elf",
+          ".pio/build/gh_release/firmware.map",
+          ".pio/build/gh_release/partitions.bin"
+        ],
+        "successComment": false,
+        "failComment": false,
+        "message": "Release - ${nextRelease.version}"
+      }
+    ]
+  ]
+}
